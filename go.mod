@@ -1,3 +1,3 @@
-module github.com/dongri/emv-qrcode
+module github.com/noebs/emv-qrcode
 
-go 1.12
+go 1.15

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/dongri/emv-qrcode/crc16"
+	"github.com/noebs/emv-qrcode/crc16"
 )
 
 // const ...
@@ -88,24 +88,24 @@ const (
 
 // EMVQR ...
 type EMVQR struct {
-	PayloadFormatIndicator              TLV                                  `json:"Payload Format Indicator"`
-	PointOfInitiationMethod             TLV                                  `json:"Point of Initiation Method"`
-	MerchantAccountInformation          map[ID]MerchantAccountInformationTLV `json:"Merchant Account Information"`
-	MerchantCategoryCode                TLV                                  `json:"Merchant Category Code"`
-	TransactionCurrency                 TLV                                  `json:"Transaction Currency"`
-	TransactionAmount                   TLV                                  `json:"Transaction Amount"`
-	TipOrConvenienceIndicator           TLV                                  `json:"Tip or Convenience Indicator"`
-	ValueOfConvenienceFeeFixed          TLV                                  `json:"Value of Convenience Fee Fixed"`
-	ValueOfConvenienceFeePercentage     TLV                                  `json:"Value of Convenience Fee Percentage"`
-	CountryCode                         TLV                                  `json:"Country Code"`
-	MerchantName                        TLV                                  `json:"Merchant Name"`
-	MerchantCity                        TLV                                  `json:"Merchant City"`
-	PostalCode                          TLV                                  `json:"Postal Code"`
-	AdditionalDataFieldTemplate         *AdditionalDataFieldTemplate         `json:"Additional Data Field Template"`
-	CRC                                 TLV                                  `json:"CRC"`
-	MerchantInformationLanguageTemplate *MerchantInformationLanguageTemplate `json:"Merchant Information - Language Template"`
-	RFUforEMVCo                         []TLV                                `json:"RFU for EMVCo"`
-	UnreservedTemplates                 map[ID]UnreservedTemplateTLV         `json:"Unreserved Templates"`
+	PayloadFormatIndicator              TLV                                  `json:"format_indicator"`
+	PointOfInitiationMethod             TLV                                  `json:"inititation_method"`
+	MerchantAccountInformation          map[ID]MerchantAccountInformationTLV `json:"merchant_account_info"`
+	MerchantCategoryCode                TLV                                  `json:"merchant_category_code"`
+	TransactionCurrency                 TLV                                  `json:"currency"`
+	TransactionAmount                   TLV                                  `json:"amount"`
+	TipOrConvenienceIndicator           TLV                                  `json:"tip_indicator"`
+	ValueOfConvenienceFeeFixed          TLV                                  `json:"tip_fixed"`
+	ValueOfConvenienceFeePercentage     TLV                                  `json:"tip_percentage"`
+	CountryCode                         TLV                                  `json:"country_code"`
+	MerchantName                        TLV                                  `json:"merchant_name"`
+	MerchantCity                        TLV                                  `json:"merchant_city"`
+	PostalCode                          TLV                                  `json:"postal_code"`
+	AdditionalDataFieldTemplate         *AdditionalDataFieldTemplate         `json:"additional_field"`
+	CRC                                 TLV                                  `json:"crc"`
+	MerchantInformationLanguageTemplate *MerchantInformationLanguageTemplate `json:"i18n"`
+	RFUforEMVCo                         []TLV                                `json:"rfu"`
+	UnreservedTemplates                 map[ID]UnreservedTemplateTLV         `json:"unreserved"`
 }
 
 // MerchantAccountInformationTLV ...
@@ -117,31 +117,31 @@ type MerchantAccountInformationTLV struct {
 
 // MerchantAccountInformation ...
 type MerchantAccountInformation struct {
-	GloballyUniqueIdentifier TLV   `json:"Globally Unique Identifier"`
-	PaymentNetworkSpecific   []TLV `json:"Payment network specific"`
+	GloballyUniqueIdentifier TLV   `json:"guid"`
+	PaymentNetworkSpecific   []TLV `json:"payment_network"`
 }
 
 // AdditionalDataFieldTemplate ...
 type AdditionalDataFieldTemplate struct {
-	BillNumber                    TLV   `json:"Bill Number"`
-	MobileNumber                  TLV   `json:"Country Code"`
-	StoreLabel                    TLV   `json:"Store Label"`
-	LoyaltyNumber                 TLV   `json:"Loyalty Number"`
-	ReferenceLabel                TLV   `json:"Reference Label"`
-	CustomerLabel                 TLV   `json:"Customer Label"`
-	TerminalLabel                 TLV   `json:"Terminal Label"`
-	PurposeTransaction            TLV   `json:"Purpose of Transaction"`
-	AdditionalConsumerDataRequest TLV   `json:"Additional Consumer Data Request"`
-	RFUforEMVCo                   []TLV `json:"RFU for EMVCo"`
-	PaymentSystemSpecific         []TLV `json:"Payment System specific templates"`
+	BillNumber                    TLV   `json:"bill_number"`
+	MobileNumber                  TLV   `json:"country_code"`
+	StoreLabel                    TLV   `json:"store_label"`
+	LoyaltyNumber                 TLV   `json:"loyalty_number"`
+	ReferenceLabel                TLV   `json:"reference_label"`
+	CustomerLabel                 TLV   `json:"customer_label"`
+	TerminalLabel                 TLV   `json:"terminal_label"`
+	PurposeTransaction            TLV   `json:"transaction_purpose"`
+	AdditionalConsumerDataRequest TLV   `json:"additional_consumer_data"`
+	RFUforEMVCo                   []TLV `json:"rfu"`
+	PaymentSystemSpecific         []TLV `json:"payment_specific"`
 }
 
 // MerchantInformationLanguageTemplate ...
 type MerchantInformationLanguageTemplate struct {
-	LanguagePreference TLV   `json:"Language Preference"`
-	MerchantName       TLV   `json:"Merchant Name"`
-	MerchantCity       TLV   `json:"Merchant City"`
-	RFUforEMVCo        []TLV `json:"RFU for EMVCo"`
+	LanguagePreference TLV   `json:"language_preference"`
+	MerchantName       TLV   `json:"merchant_name"`
+	MerchantCity       TLV   `json:"Merchant_city"`
+	RFUforEMVCo        []TLV `json:"rfu"`
 }
 
 // UnreservedTemplateTLV ...
@@ -153,8 +153,8 @@ type UnreservedTemplateTLV struct {
 
 // UnreservedTemplate ...
 type UnreservedTemplate struct {
-	GloballyUniqueIdentifier TLV   `json:"Globally Unique Identifier"`
-	ContextSpecificData      []TLV `json:"Context Specific Data"`
+	GloballyUniqueIdentifier TLV   `json:"guid"`
+	ContextSpecificData      []TLV `json:"context_data"`
 }
 
 // DataType ...
