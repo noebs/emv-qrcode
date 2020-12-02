@@ -16,10 +16,12 @@
             <thead>
                 <tr>
                  
-                  <th scope="col">MerchantName</th>
-                  <th scope="col">TransactionAmount</th>
-                  <th scope="col">TransactionCurrency</th>
-                  <th scope="col">MerchantCity</th>
+                  <th scope="row">Name</th>
+                  <th scope="row">Amount</th>
+                  <th scope="row">Currency</th>
+                  <th scope="row">City</th>
+                  <th scope="row">Account ID</th>
+                  <th scope="row">Acquirer ID</th>
                  
                   
                 </tr>
@@ -27,11 +29,12 @@
               <tbody>
                  
                 <tr>
-                    <td>{{.MerchantName.Value}}</td>
-                    <td>{{.TransactionAmount.Value}}</td>
-                    <td>{{.TransactionCurrency.Value}}</td>
-                    <td>{{.MerchantCity.Value}}</td>
-                   
+                    <td>{{.MerchantName}}</td>
+                    <td>{{.Amount}}</td>
+                    <td>{{.RawQR.TransactionCurrency.Value}}</td>
+                    <td>{{.RawQR.MerchantCity.Value}}</td>
+                    <td>{{.MerchantBankID}}</td> <!--For merchant ID-->
+                   <td>{{.AcquirerID}}</td>
                    
                   </tr>
               

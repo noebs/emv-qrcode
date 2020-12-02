@@ -16,6 +16,7 @@ func main() {
 	var qr QRCheck
 
 	http.HandleFunc("/encode", qr.DecodeHandler)
+	http.HandleFunc("/decode", qr.DecodeHandler)
 	http.HandleFunc("/", qr.DecodeHtml)
 	http.ListenAndServe(":8012", nil)
 
@@ -46,12 +47,20 @@ func (q QRCheck) DecodeHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	res, err := json.Marshal(qrencoded)
+
+	qr := QR{}
+	if err := qr.init(qrencoded); err != nil {
+		log.Printf("Error in parsing QR: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	res, err := json.Marshal(qr)
 	if err != nil {
 		log.Printf("Error in parsing QR: %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 
@@ -73,7 +82,13 @@ func (q QRCheck) DecodeHtml(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	tmpl.Execute(w, qrencoded)
+	qr := QR{}
+	if err := qr.init(qrencoded); err != nil {
+		log.Printf("Error in parsing QR: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	tmpl.Execute(w, qr)
 
 }
 
